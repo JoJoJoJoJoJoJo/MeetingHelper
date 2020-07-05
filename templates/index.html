@@ -1,0 +1,61 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %} 录音识别 {% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">表格识别</a>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid" style="margin-top: 80px;">
+    {% for message in get_flashed_messages() %}
+	<div class='alert alert-warning'>
+		<button type='button' class='close' data-dismiss='alert'>&times;</button>
+		{{message}}
+	</div>
+	{% endfor %}
+        {% block page_content %}
+            <div class="container">
+                <div class='jumbotron'>
+                    <h2 id='top'>道具一览</h2>
+                    <p>提供所有道具的查询</p>
+                    <p>可根据项目、语言版本查询</p>
+                    <p>请勿输入多个冲突的查询条件</p>
+
+                </div>
+                {{ wtf.quick_form(form) }}
+                <div id="task_id" class="table-responsive">
+                    <table class='table table-striped'>
+                        <thead><tr><th>文件名</th><th>task_id</th><th>状态</th><th>操作</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ filename }}</td>
+                                <td>{{ task_id }}</td>
+                                <td>{{ progress }}</td>
+                                <td>
+                                    <button id="getProgress" name="更新状态" type="button">更新状态</button>
+                                    <button id="getResult" name="获取结果" type="button" hidden="hidden">获取结果</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{#{% block head %}#}
+{#{{ super() }}#}
+{#<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>#}
+{#<link href="{{url_for('static',filename='src/css/main.css')}}" rel='stylesheet'>#}
+{#{% endblock %}#}
