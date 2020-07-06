@@ -99,7 +99,7 @@ class RequestApi:
         cls.post('/getProgress', params)
 
     @classmethod
-    def getresult(cls, task_id):
+    def get_result(cls, task_id):
         params = cls.get_common_params()
         params['task_id'] = task_id
         cls.post('/getResult', params)
