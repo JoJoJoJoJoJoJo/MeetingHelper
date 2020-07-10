@@ -37,9 +37,9 @@
                         <tbody>
                             {% for record in records %}
                             <tr>
-                                <td>{{ record['filename'] }}</td>
-                                <td>{{ record['task_id'] }}</td>
-                                <td>{{ record['progress'] }}</td>
+                                <td>{{ record.file_name }}</td>
+                                <td>{{ record.task_id }}</td>
+                                <td>{{ record.state }}</td>
                                 <td>
                                     <button id="getProgress-{{ record['task_id'] }}" name="progress" type="button" class="btn btn-primary">更新状态</button>
                                     <button id="getResult-{{ record['task_id'] }}" name="result" type="button" class="btn btn-primary hidden">获取结果</button>

@@ -25,6 +25,7 @@ class RequestApi:
         self.file = file
         self.file_name = file.filename
         self.file_len = 0
+        self.file_hash = ''
         self.task_id = 0
         self.file_slices = {}
         self.slice_num = 0
@@ -61,6 +62,7 @@ class RequestApi:
     def handle_file(self):
         file_piece_size = Config.FILE_PIECE_SIZE
         sig = SliceIdGenerator()
+        md5 = hashlib.md5()
 
         while True:
             content = self.file.read(file_piece_size)
@@ -69,6 +71,8 @@ class RequestApi:
             self.slice_num += 1
             self.file_len += len(content)
             self.file_slices[sig.get_next_id()] = content
+            md5.update(content)
+        self.file_hash = md5.hexdigest()
 
     def prepare(self):
         params = self.get_common_params()
