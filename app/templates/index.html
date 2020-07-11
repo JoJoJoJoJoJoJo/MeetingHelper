@@ -25,12 +25,13 @@
             <div class="container">
                 <div class='jumbotron'>
                     <h2 id='top'>录音文件转写</h2>
-                    <p>提供所有道具的查询</p>
-                    <p>可根据项目、语言版本查询</p>
-                    <p>请勿输入多个冲突的查询条件</p>
-
+                    <p>文件大小不能超过500M</p>
+                    <p>录音时长不能超过5小时</p>
+                    <p>选择文件上传，然后等个几分钟到几小时，可以点击更新状态查看进度，完成后点击获取结果</p>
+                    <p>PS: 录音的时候音质别选太高，不然文件特别大...</p>
                 </div>
                 {{ wtf.quick_form(form) }}
+                <br/>
                 <div id="task_id" class="table-responsive">
                     <table class='table table-striped'>
                         <thead><tr><th>文件名</th><th>task_id</th><th>状态</th><th>操作</th></tr></thead>

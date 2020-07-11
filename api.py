@@ -9,13 +9,23 @@ import json
 
 
 class SliceIdGenerator:
-    def __init__(self, base='slice'):
-        self.base = base
-        self.start = 0
+    """slice id生成器"""
+    def __init__(self):
+        self.__ch = 'aaaaaaaaa`'
 
     def get_next_id(self):
-        self.start += 1
-        return self.base + str(self.start)
+        ch = self.__ch
+        j = len(ch) - 1
+        while j >= 0:
+            cj = ch[j]
+            if cj != 'z':
+                ch = ch[:j] + chr(ord(cj) + 1) + ch[j+1:]
+                break
+            else:
+                ch = ch[:j] + 'a' + ch[j+1:]
+                j = j -1
+        self.__ch = ch
+        return self.__ch
 
 
 class RequestApi:
@@ -26,7 +36,7 @@ class RequestApi:
         self.file_name = file.filename
         self.file_len = 0
         self.file_hash = ''
-        self.task_id = 0
+        self.task_id = ''
         self.file_slices = {}
         self.slice_num = 0
         self.handle_file()
@@ -76,7 +86,7 @@ class RequestApi:
 
     def prepare(self):
         params = self.get_common_params()
-        params['file_len'] = self.file_len
+        params['file_len'] = str(self.file_len)
         params['file_name'] = self.file_name
         params['slice_num'] = self.slice_num
         result = self.post('/prepare', params)
@@ -85,7 +95,7 @@ class RequestApi:
     def upload(self):
         params = self.get_common_params()
         params['task_id'] = self.task_id
-        for slice_id, content in self.file_slices:
+        for slice_id, content in self.file_slices.items():
             param = params.copy()
             param['slice_id'] = slice_id
             self.post('/upload', param, files={'filename': slice_id, 'content': content})
@@ -97,16 +107,16 @@ class RequestApi:
         self.post('/merge', params)
 
     @classmethod
-    def get_progress(cls,task_id):
+    def get_progress(cls, task_id):
         params = cls.get_common_params()
         params['task_id'] = task_id
-        cls.post('/getProgress', params)
+        return cls.post('/getProgress', params)
 
     @classmethod
     def get_result(cls, task_id):
         params = cls.get_common_params()
         params['task_id'] = task_id
-        cls.post('/getResult', params)
+        return cls.post('/getResult', params)
 
     def call(self):
         self.prepare()

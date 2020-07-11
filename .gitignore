@@ -2,3 +2,15 @@
 .idea/
 # py cache
 __pycache__/
+# main
+main.py
+# output docx
+*.docx
+# build dist
+build/
+dist/
+*.spec
+# db
+*.sqlite
+# log files
+*.log
