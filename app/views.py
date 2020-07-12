@@ -97,6 +97,6 @@ def get_word():
 
 @app.route('/file/<filename>')
 def getfile(filename):
-    response = make_response(send_file('../' + filename))
+    response = make_response(send_file(WordGenerator.get_file_path(filename)))
     response.headers['Content-Disposition'] = 'attachment;filename={};'.format(filename).encode('utf-8')
     return response

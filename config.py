@@ -11,4 +11,5 @@ class Config:
     FILE_PIECE_SIZE = 10485760
     SQLALCHEMY_DATABASE_URI = os.environ.get('FLASK_DATABASE_URI') or 'sqlite:///' + os.path.join(BASEDIR, 'db.sqlite')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    WORD_SAVE_DIR = BASEDIR
 

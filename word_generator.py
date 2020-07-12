@@ -6,7 +6,7 @@ from docx.enum.dml import MSO_THEME_COLOR_INDEX
 import os
 import logging
 
-from config import BASEDIR
+from config import Config
 
 _logger = logging.getLogger(__name__)
 
@@ -16,6 +16,7 @@ class WordGenerator:
         self.name = name
         self.contents = contents
         self.filename = self.name.rsplit('.', maxsplit=1)[0] + '.docx'
+        self.file_path = self.get_file_path(self.filename)
         try:
             self.clear_docx()
         except Exception as e:
@@ -40,7 +41,7 @@ class WordGenerator:
             run.font.color.theme_color = MSO_THEME_COLOR_INDEX.ACCENT_2
             paragh.add_run('\n')
             paragh.add_run(text)
-        document.save(self.filename)
+        document.save(self.file_path)
 
     def merge_contents(self):
         """
@@ -62,6 +63,10 @@ class WordGenerator:
         self.contents = [self.contents[i] for i in keep_indexes]
 
     def clear_docx(self):
-        files = os.listdir(BASEDIR)
+        files = os.listdir(Config.WORD_SAVE_DIR)
         for name in filter(lambda f: f.endswith('.docx'), files):
             os.remove(name)
+
+    @classmethod
+    def get_file_path(cls, filename):
+        return os.path.join(Config.WORD_SAVE_DIR, filename)
