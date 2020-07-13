@@ -20,5 +20,5 @@ class UploadSet:
 
 
 class FileForm(FlaskForm):
-    file = FileField('录音文件', validators=[DataRequired(), FileAllowed(UploadSet(['wav', 'csv']), '文件格式不对哦～')])
+    file = FileField('录音文件', validators=[DataRequired(), FileAllowed(UploadSet(['wav', 'flac', 'opus', 'm4a', 'mp3']), '文件格式不对哦～')])
     submit = SubmitField('提交')

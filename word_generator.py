@@ -12,10 +12,11 @@ _logger = logging.getLogger(__name__)
 
 
 class WordGenerator:
-    def __init__(self, name, contents):
+    def __init__(self, name, contents, show_details=True):
         self.name = name
         self.contents = contents
-        self.filename = self.name.rsplit('.', maxsplit=1)[0] + '.docx'
+        self.show_details = show_details
+        self.filename = self.name.rsplit('.', maxsplit=1)[0] + ('（含详情）' if show_details else '') + '.docx'
         self.file_path = self.get_file_path(self.filename)
         try:
             self.clear_docx()
@@ -35,11 +36,12 @@ class WordGenerator:
             speaker = content['speaker']
             text = content['onebest']
             paragh = document.add_paragraph('')
-            run = paragh.add_run('第{}秒至第{}秒，发言人{}号'.format(int(begin) / 1000, int(end) / 1000, speaker))
-            run.italic = True
-            run.font.size = Pt(10)
-            run.font.color.theme_color = MSO_THEME_COLOR_INDEX.ACCENT_2
-            paragh.add_run('\n')
+            if self.show_details:
+                run = paragh.add_run('第{}秒至第{}秒，发言人{}号'.format(int(begin) / 1000, int(end) / 1000, speaker))
+                run.italic = True
+                run.font.size = Pt(10)
+                run.font.color.theme_color = MSO_THEME_COLOR_INDEX.ACCENT_2
+                paragh.add_run('\n')
             paragh.add_run(text)
         document.save(self.file_path)
 

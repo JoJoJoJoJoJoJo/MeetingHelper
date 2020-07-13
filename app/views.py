@@ -20,13 +20,13 @@ def index():
     if form.validate_on_submit():
         file = form.file.data
         api = RequestApi(file)
-        api.call()
         record = SubmitRecord.query.filter_by(file_hash=api.file_hash).first()
         if record and record.state != FAIL_STATE:
             flash('文件已经识别过了哦～，可以在下面的列表里找到。文件名：{}'.format(record.file_name))
         else:
             if record:
                 db.session.delete(record)
+            api.call()
             record = SubmitRecord(file_hash=api.file_hash, task_id=api.task_id, file_name=api.file_name, state='上传成功')
             db.session.add(record)
             db.session.commit()
@@ -87,9 +87,10 @@ def get_result():
 @app.route('/word', methods=['POST'])
 def get_word():
     task_id = request.form['task_id']
+    show_details = request.form['show_details'] == 'true'
     record = SubmitRecord.query.filter_by(task_id=task_id).first()
     data = json.loads(record.result)
-    generator = WordGenerator(record.file_name, data)
+    generator = WordGenerator(record.file_name, data, show_details)
     generator.generate()
     filename = generator.filename
     return filename

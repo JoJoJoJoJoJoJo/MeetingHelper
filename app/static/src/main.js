@@ -42,8 +42,10 @@ $(function () {
     $("[name='result']").click(function () {
         var task_id = this.id.split('-').pop();
         let resultButton = $(this);
+        let checked = resultButton.parent().next().children()[0].checked;
         let form = new FormData();
         form.append("task_id", task_id);
+        form.append("show_details", checked);
         $.ajax({
             "url": "/result",
             "type": "POST",

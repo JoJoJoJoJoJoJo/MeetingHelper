@@ -12,4 +12,3 @@ class SubmitRecord(db.Model):
     result = db.Column(db.Text)
     error_no = db.Column(db.Integer)
     error = db.Column(db.Text)
-

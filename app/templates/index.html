@@ -27,6 +27,7 @@
                     <h2 id='top'>录音文件转写</h2>
                     <p>文件大小不能超过500M</p>
                     <p>录音时长不能超过5小时</p>
+                    <p>支持格式：wav,flac,opus,m4a,mp3</p>
                     <p>选择文件上传，然后等个几分钟到几小时，可以点击更新状态查看进度，完成后点击获取结果</p>
                     <p>PS: 录音的时候音质别选太高，不然文件特别大...</p>
                 </div>
@@ -34,7 +35,7 @@
                 <br/>
                 <div id="task_id" class="table-responsive">
                     <table class='table table-striped'>
-                        <thead><tr><th>文件名</th><th>task_id</th><th>状态</th><th>操作</th></tr></thead>
+                        <thead><tr><th>文件名</th><th>task_id</th><th>状态</th><th>操作</th><th>结果显示发言人和时间信息</th></tr></thead>
                         <tbody>
                             {% for record in records %}
                             <tr>
@@ -44,6 +45,9 @@
                                 <td>
                                     <button id="getProgress-{{ record['task_id'] }}" name="progress" type="button" class="btn btn-primary">更新状态</button>
                                     <button id="getResult-{{ record['task_id'] }}" name="result" type="button" class="btn btn-primary hidden">获取结果</button>
+                                </td>
+                                <td>
+                                    <input type="checkbox"/>
                                 </td>
                             </tr>
                             {% endfor %}
